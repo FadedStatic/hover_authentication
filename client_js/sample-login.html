@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AES256 Example</title>
+</head>
+<body>
+  <h1>AES256 Example</h1>
+  <p>Enter plaintext to encrypt:</p>
+  <textarea id="plaintext" rows="4" cols="50"></textarea>
+  <br>
+  <button onclick="encrypt()">Encrypt</button>
+  <p>Encrypted text:</p>
+<textarea id="encrypted" rows="4" cols="50" readonly></textarea>
+<p>Enter plaintext to hash:</p>
+<textarea id="hash" rows="4" cols="50"></textarea>
+<br>
+<button onclick="hash()">hash</button>
+<p>Hashed text:</p>
+<textarea id="hashed" rows="4" cols="50" readonly></textarea>
+<script src="hover-lib.js"></script>
+<script src="node_modules/argon2-browser/lib/argon2.js"></script>
+<script>
+    async function encrypt() 
+    {
+      const plaintext = document.getElementById('plaintext').value;
+      const key = await getEnckey(plaintext);
+	    const iv = await getIvInverse(plaintext);
+      aes256Encrypt(key.join(''), plaintext, iv.join(''))
+        .then(encrypted => 
+        {
+          document.getElementById('encrypted').value = encrypted;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+    async function hash() 
+    {
+      const plaintext = document.getElementById('hash').value;
+      const key = await getEnckey(plaintext);
+      var hashem = "";
+      await hashInformation(plaintext, key.join('')).then(res => {hashem=res;});
+      document.getElementById('hashed').value = hashem;
+      console.log(hashem);
+    }
+  </script>
+</body>
+</html>
