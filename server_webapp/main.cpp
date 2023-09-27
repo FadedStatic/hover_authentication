@@ -8,6 +8,9 @@
 #include <openssl/sha.h>
 #include "auth/include.hpp"
 
+
+// ignore this change
+
 auto base64_encode(const std::string_view bytes_to_encode)
 {
 	static const std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
